@@ -2,17 +2,9 @@ import { useEffect, useState } from 'react';
 import { Button, message, Popconfirm, Space, Table, TableProps, Tag } from 'antd';
 import { AppstoreAddOutlined, DeleteFilled, EditFilled, InfoCircleFilled, LikeFilled, LikeOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { ProductModel } from '../models/products';
 
-const api = "https://shop-pd211-awdhcvf3ebdpb7es.polandcentral-01.azurewebsites.net/api/products/";
-
-interface ProductModel {
-    id: number;
-    title: string;
-    price: number;
-    discount: number;
-    quantity: number;
-    imageUrl: string;
-}
+const productsApi = import.meta.env.VITE_PRODUCTS_API;
 
 const ProductTable = () => {
 
@@ -81,16 +73,17 @@ const ProductTable = () => {
 
     // load data from server
     useEffect(() => {
-        fetch(api + "all")
+        fetch(productsApi + "all")
             .then(res => res.json())
-            .then((data: ProductModel[]) => {
-                setProducts(data.sort((x, y) => y.id - x.id));
+            .then((data) => {
+                const items = data as ProductModel[];
+                setProducts(items.sort((x, y) => y.id - x.id));
             });
     }, []);
 
     const deleteItem = (id: number) => {
 
-        fetch(api + id, {
+        fetch(productsApi + id, {
             method: "DELETE"
         }).then(res => {
             if (res.status === 200) {
