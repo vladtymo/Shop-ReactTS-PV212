@@ -5,4 +5,6 @@ export interface ProductModel {
     discount: number;
     quantity: number;
     imageUrl: string;
+    categoryName?: string;
+    description?: string;
 }
