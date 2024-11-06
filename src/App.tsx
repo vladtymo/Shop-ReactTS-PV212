@@ -1,17 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { Layout } from 'antd'
 import AppLayout from './components/Layout'
+import { Route, Routes } from 'react-router-dom'
+import ProductTable from './components/ProductTable'
 
 function App() {
-  const [count, setCount] = useState<number>(0)
-
   return (
-    <>
-      <AppLayout />
-    </>
+    <Routes>
+      <Route path='/' element={<AppLayout />}>
+        <Route index element={<p>Home Page!</p>} />
+        <Route path='/products' element={<ProductTable />} />
+        <Route path='*' element={<p>Page Not Found!</p>} />
+      </Route>
+    </Routes>
   )
 }
 

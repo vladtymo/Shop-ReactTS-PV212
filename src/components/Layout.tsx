@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import {
+    HomeFilled,
+    InfoCircleFilled,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
+    ProductFilled
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
 
 const AppLayout: React.FC = () => {
+
+    const { pathname } = useLocation();
+
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -23,22 +27,22 @@ const AppLayout: React.FC = () => {
                 <Menu
                     theme="dark"
                     mode="inline"
-                    defaultSelectedKeys={['1']}
+                    defaultSelectedKeys={[pathname]}
                     items={[
                         {
-                            key: '1',
-                            icon: <UserOutlined />,
-                            label: 'nav 1',
+                            key: '/',
+                            icon: <HomeFilled />,
+                            label: <Link to="/">Home</Link>,
                         },
                         {
-                            key: '2',
-                            icon: <VideoCameraOutlined />,
-                            label: 'nav 2',
+                            key: '/products',
+                            icon: <ProductFilled />,
+                            label: <Link to="/products">Products</Link>,
                         },
                         {
-                            key: '3',
-                            icon: <UploadOutlined />,
-                            label: 'nav 3',
+                            key: '/about',
+                            icon: <InfoCircleFilled />,
+                            label: <Link to="/about">About</Link>,
                         },
                     ]}
                 />
@@ -66,7 +70,7 @@ const AppLayout: React.FC = () => {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    Content
+                    <Outlet />
                 </Content>
             </Layout>
         </Layout>
