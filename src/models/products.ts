@@ -8,3 +8,13 @@ export interface ProductModel {
     categoryName?: string;
     description?: string;
 }
+
+export type ProductFormField = {
+    title?: string;
+    price?: string;
+    discount?: number;
+    quantity?: number;
+    categoryId?: number;
+    description?: string;
+    imageUrl?: string;
+};
