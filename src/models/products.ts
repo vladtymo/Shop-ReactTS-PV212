@@ -9,7 +9,8 @@ export interface ProductModel {
     description?: string;
 }
 
-export type ProductFormField = {
+export type ProductFormFields = {
+    id?: number;
     title?: string;
     price?: string;
     discount?: number;

@@ -10,46 +10,51 @@ import {
     Select,
     Space,
 } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CategoryModel, CategoryOption } from '../models/categories';
 import { ProductFormFields } from '../models/products';
 
+type QueryParams = {
+    id: string;
+}
 const { TextArea } = Input;
-
-// const normFile = (e: any) => {
-//     if (Array.isArray(e)) {
-//         return e[0];
-//     }
-//     return e?.file;
-// };
 
 const productsApi = import.meta.env.VITE_PRODUCTS_API;
 
-const CreateProduct = () => {
+const EditProduct = () => {
 
+    // const [product, setProduct] = useState<ProductModel | null>(null);
     const navigate = useNavigate();
     const [categories, setCategories] = useState<CategoryOption[]>([]);
+    const [form] = Form.useForm<ProductFormFields>();
+    const { id } = useParams<QueryParams>();
 
     useEffect(() => {
         fetch(productsApi + 'categories').then(res => res.json()).then(data => {
             const items = data as CategoryModel[];
             setCategories(items.map(x => { return { label: x.name, value: x.id } }));
         });
+
+        fetch(productsApi + id).then(res => res.json()).then(data => {
+            // setProduct(data);
+            form.setFieldsValue(data);
+            console.log(data);
+        });
     }, []);
 
     const onSubmit: FormProps<ProductFormFields>['onFinish'] = (item) => {
         console.log(item);
 
-        // TODO: upload to server
+        // upload to server
         fetch(productsApi, {
-            method: "POST",
+            method: "PUT",
             body: JSON.stringify(item),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
         }).then(res => {
             if (res.status === 200) {
-                message.success("Product created successfuly!");
+                message.success("Product edited successfuly!");
                 navigate(-1);
             }
             else {
@@ -59,14 +64,13 @@ const CreateProduct = () => {
                 })
             }
         })
-
     }
     return (
         <>
             <Button onClick={() => navigate(-1)} color="default" variant="text" icon={<LeftOutlined />}></Button>
-            <h2>Create New Product</h2>
+            <h2>Edit Product</h2>
 
-            <Form
+            <Form<ProductFormFields>
                 labelCol={{
                     span: 4,
                 }}
@@ -78,8 +82,10 @@ const CreateProduct = () => {
                 style={{
                     maxWidth: 600,
                 }}
+                form={form}
                 onFinish={onSubmit}
             >
+                <Form.Item<ProductFormFields> name="id" hidden></Form.Item>
                 <Form.Item<ProductFormFields> label="Title" name="title"
                     rules={[
                         {
@@ -123,7 +129,7 @@ const CreateProduct = () => {
                             Cancel
                         </Button>
                         <Button type="primary" htmlType="submit">
-                            Create
+                            Edit
                         </Button>
                     </Space>
                 </Form.Item>
@@ -131,4 +137,4 @@ const CreateProduct = () => {
         </>
     );
 };
-export default CreateProduct;
+export default EditProduct;
