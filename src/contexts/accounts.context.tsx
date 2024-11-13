@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { TokenPayload } from "../models/accounts";
+import { tokenService } from "../services/token.service";
 
 export type AccountContextType = {
     account: TokenPayload | null;
@@ -10,7 +11,7 @@ export type AccountContextType = {
 export const AccountContext = React.createContext<AccountContextType | null>(null);
 
 export const AccountProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [account, setAccount] = React.useState<TokenPayload | null>(null);
+    const [account, setAccount] = React.useState<TokenPayload | null>(tokenService.getPayload());
 
     const clear = () => {
         setAccount(null);
