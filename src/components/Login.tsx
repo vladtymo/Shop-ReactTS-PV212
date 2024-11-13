@@ -4,25 +4,28 @@ import { Button, Checkbox, Form, Input, message } from 'antd';
 import API from '../services/accounts.service';
 import { tokenService } from '../services/token.service';
 import { LoginField } from '../models/accounts';
-
-const onFinish: FormProps<LoginField>['onFinish'] = (values) => {
-    console.log('Success:', values);
-
-    // using [axios] instead of [fetch]
-    API.post("login", values).then(res => {
-        console.log(res);
-        if (res.status === 200) {
-            tokenService.save(res.data.accessToken);
-            message.success("Success!");
-
-            alert(tokenService.getPayload()?.email);
-        }
-    }).catch(err => {
-        message.error(err.response.data.detail);
-    });
-};
+import { useAccountContext } from '../contexts/accounts.context';
 
 const Login: React.FC = () => {
+
+    const { setAccount } = useAccountContext();
+
+    const onFinish: FormProps<LoginField>['onFinish'] = (values) => {
+        console.log('Success:', values);
+
+        // using [axios] instead of [fetch]
+        API.post("login", values).then(res => {
+            console.log(res);
+            if (res.status === 200) {
+                tokenService.save(res.data.accessToken);
+                message.success("Success!");
+                setAccount(tokenService.getPayload());
+            }
+        }).catch(err => {
+            message.error(err.response.data.detail);
+        });
+    };
+
     return (
         <>
             <h2 style={{ textAlign: "center" }}>Login Into Your Account</h2>

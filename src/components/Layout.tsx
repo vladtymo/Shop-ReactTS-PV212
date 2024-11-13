@@ -12,17 +12,24 @@ import {
 import { Button, Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { tokenService } from '../services/token.service';
+import { useAccountContext } from '../contexts/accounts.context';
 
 const { Header, Sider, Content } = Layout;
 
 const AppLayout: React.FC = () => {
 
     const { pathname } = useLocation();
+    const { account, clear } = useAccountContext();
 
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+
+    const logout = () => {
+        tokenService.logout();
+        clear();
+    }
 
     return (
         <Layout className='AppLayout'>
@@ -67,11 +74,11 @@ const AppLayout: React.FC = () => {
                         {
                             tokenService.isAuthenticated() ?
                                 <>
-                                    <span style={{ padding: "10px" }}>Hello, {tokenService.getPayload()?.email}</span>
+                                    <span style={{ padding: "10px" }}>Hello, {account?.email}</span>
                                     <Button
                                         type="text"
                                         icon={<LogoutOutlined />}
-                                        onClick={tokenService.logout}
+                                        onClick={logout}
                                         style={{
                                             fontSize: '16px',
                                             height: 64,
