@@ -27,7 +27,7 @@ export default function ProductInfo() {
             {
                 item ?
                     <div>
-                        <h2>{item.title}</h2>
+                        <h2>{item.name}</h2>
                         <p>{item.categoryName}</p>
                         <hr />
                         <Image

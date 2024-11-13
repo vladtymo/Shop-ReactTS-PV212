@@ -15,12 +15,12 @@ const ProductTable = () => {
             title: 'Image',
             dataIndex: 'imageUrl',
             key: 'image',
-            render: (_, item) => <img height={50} src={item.imageUrl} alt={item.title}></img>,
+            render: (_, item) => <img height={50} src={item.imageUrl} alt={item.name}></img>,
         },
         {
-            title: 'Title',
-            dataIndex: 'title',
-            key: 'title',
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
             render: (text, item) => <Link to={`/products/${item.id}`}>{text}</Link>,
         },
         {
@@ -59,7 +59,7 @@ const ProductTable = () => {
                     </Link>
                     <Popconfirm
                         title="Delete the product"
-                        description={`Are you sure to delete ${record.title}?`}
+                        description={`Are you sure to delete ${record.name}?`}
                         onConfirm={() => deleteItem(record.id)}
                         okText="Yes"
                         cancelText="No"

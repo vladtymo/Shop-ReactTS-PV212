@@ -1,6 +1,6 @@
 export interface ProductModel {
     id: number;
-    title: string;
+    name: string;
     price: number;
     discount: number;
     quantity: number;
@@ -11,7 +11,7 @@ export interface ProductModel {
 
 export type ProductFormFields = {
     id?: number;
-    title?: string;
+    name?: string;
     price?: string;
     discount?: number;
     quantity?: number;

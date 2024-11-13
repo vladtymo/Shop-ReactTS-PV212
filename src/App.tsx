@@ -5,6 +5,8 @@ import ProductTable from './components/ProductTable'
 import ProductInfo from './components/ProductInfo'
 import CreateProduct from './components/CreateProduct'
 import EditProduct from './components/EditProduct'
+import Login from './components/Login'
+import Register from './components/Register'
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path='/products' element={<ProductTable />} />
         <Route path='/products/:id' element={<ProductInfo />} />
         <Route path='/create' element={<CreateProduct />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
         <Route path='/edit/:id' element={<EditProduct />} />
         <Route path='*' element={<p>Page Not Found!</p>} />
       </Route>

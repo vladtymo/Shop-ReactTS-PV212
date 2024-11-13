@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import {
     HomeFilled,
     InfoCircleFilled,
+    LoginOutlined,
+    LogoutOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    ProductFilled
+    ProductFilled,
+    UserAddOutlined
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { tokenService } from '../services/token.service';
 
 const { Header, Sider, Content } = Layout;
 
@@ -48,7 +52,7 @@ const AppLayout: React.FC = () => {
                 />
             </Sider>
             <Layout className='main'>
-                <Header style={{ padding: 0, background: colorBgContainer }}>
+                <Header style={{ padding: 0, background: colorBgContainer, display: "flex", justifyContent: "space-between" }}>
                     <Button
                         type="text"
                         icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -59,6 +63,43 @@ const AppLayout: React.FC = () => {
                             height: 64,
                         }}
                     />
+                    <div>
+                        {
+                            tokenService.isAuthenticated() ?
+                                <>
+                                    <span style={{ padding: "10px" }}>Hello, {tokenService.getPayload()?.email}</span>
+                                    <Button
+                                        type="text"
+                                        icon={<LogoutOutlined />}
+                                        onClick={tokenService.logout}
+                                        style={{
+                                            fontSize: '16px',
+                                            height: 64,
+                                        }}>Logout</Button>
+                                </>
+                                :
+                                <>
+                                    <Link to='/login'>
+                                        <Button
+                                            type="text"
+                                            icon={<LoginOutlined />}
+                                            style={{
+                                                fontSize: '16px',
+                                                height: 64,
+                                            }}>Login</Button>
+                                    </Link>
+                                    <Link to='/register'>
+                                        <Button
+                                            type="text"
+                                            icon={<UserAddOutlined />}
+                                            style={{
+                                                fontSize: '16px',
+                                                height: 64,
+                                            }}>Register</Button>
+                                    </Link>
+                                </>
+                        }
+                    </div>
                 </Header>
                 <Content
                     className='Content'

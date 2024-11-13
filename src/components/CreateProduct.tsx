@@ -71,16 +71,12 @@ const CreateProduct = () => {
                     span: 4,
                 }}
                 wrapperCol={{
-                    span: 14,
+                    span: 18,
                 }}
                 layout="horizontal"
-
-                style={{
-                    maxWidth: 600,
-                }}
                 onFinish={onSubmit}
             >
-                <Form.Item<ProductFormFields> label="Title" name="title"
+                <Form.Item<ProductFormFields> label="Title" name="name"
                     rules={[
                         {
                             required: true,
