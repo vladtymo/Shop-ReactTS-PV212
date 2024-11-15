@@ -18,4 +18,5 @@ export type ProductFormFields = {
     categoryId?: number;
     description?: string;
     imageUrl?: string;
+    image?: File;
 };
