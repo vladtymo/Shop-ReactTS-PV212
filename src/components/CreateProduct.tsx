@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LeftOutlined, UpCircleOutlined, UploadOutlined } from '@ant-design/icons';
+import { LeftOutlined, UploadOutlined } from '@ant-design/icons';
 import {
     Button,
     Form,

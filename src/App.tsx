@@ -7,6 +7,7 @@ import CreateProduct from './components/CreateProduct'
 import EditProduct from './components/EditProduct'
 import Login from './components/Login'
 import Register from './components/Register'
+import { ProtectedRoute } from './security/ProtectedRoute'
 
 function App() {
   return (
@@ -15,7 +16,11 @@ function App() {
         <Route index element={<p>Home Page!</p>} />
         <Route path='/products' element={<ProductTable />} />
         <Route path='/products/:id' element={<ProductInfo />} />
-        <Route path='/create' element={<CreateProduct />} />
+        <Route path='/create' element={
+          <ProtectedRoute>
+            <CreateProduct />
+          </ProtectedRoute>
+        } />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/edit/:id' element={<EditProduct />} />

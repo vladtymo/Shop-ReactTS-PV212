@@ -11,7 +11,6 @@ import {
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { tokenService } from '../services/token.service';
 import { useAccountContext } from '../contexts/accounts.context';
 import { accountService } from '../services/accounts.service';
 
@@ -20,7 +19,7 @@ const { Header, Sider, Content } = Layout;
 const AppLayout: React.FC = () => {
 
     const { pathname } = useLocation();
-    const { account, clear } = useAccountContext();
+    const { account, clear, isAuth } = useAccountContext();
 
     const [collapsed, setCollapsed] = useState(false);
     const {
@@ -73,7 +72,7 @@ const AppLayout: React.FC = () => {
                     />
                     <div>
                         {
-                            accountService.isAuthenticated() ?
+                            isAuth() ?
                                 <>
                                     <span style={{ padding: "10px" }}>Hello, {account?.email}</span>
                                     <Button
