@@ -13,6 +13,7 @@ import { Button, Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { tokenService } from '../services/token.service';
 import { useAccountContext } from '../contexts/accounts.context';
+import { accountService } from '../services/accounts.service';
 
 const { Header, Sider, Content } = Layout;
 
@@ -27,7 +28,7 @@ const AppLayout: React.FC = () => {
     } = theme.useToken();
 
     const logout = () => {
-        tokenService.logout();
+        accountService.logout();
         clear();
     }
 
@@ -72,7 +73,7 @@ const AppLayout: React.FC = () => {
                     />
                     <div>
                         {
-                            tokenService.isAuthenticated() ?
+                            accountService.isAuthenticated() ?
                                 <>
                                     <span style={{ padding: "10px" }}>Hello, {account?.email}</span>
                                     <Button

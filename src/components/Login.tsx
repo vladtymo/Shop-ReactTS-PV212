@@ -1,7 +1,7 @@
 import React from 'react';
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input, message } from 'antd';
-import API from '../services/accounts.service';
+import API, { accountService } from '../services/accounts.service';
 import { tokenService } from '../services/token.service';
 import { LoginField } from '../models/accounts';
 import { useAccountContext } from '../contexts/accounts.context';
@@ -17,7 +17,7 @@ const Login: React.FC = () => {
         API.post("login", values).then(res => {
             console.log(res);
             if (res.status === 200) {
-                tokenService.save(res.data.accessToken);
+                accountService.login(res.data.accessToken);
                 message.success("Success!");
                 setAccount(tokenService.getPayload());
             }
