@@ -3,8 +3,9 @@ import { Button, message, Popconfirm, Space, Table, TableProps, Tag } from 'antd
 import { AppstoreAddOutlined, DeleteFilled, EditFilled, InfoCircleFilled, LikeFilled, LikeOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { ProductModel } from '../models/products';
+import api from '../services/api';
 
-const productsApi = import.meta.env.VITE_PRODUCTS_API;
+const apiPath = import.meta.env.VITE_API_URL;
 
 const ProductTable = () => {
 
@@ -73,7 +74,7 @@ const ProductTable = () => {
 
     // load data from server
     useEffect(() => {
-        fetch(productsApi + "all")
+        fetch(apiPath + "products/all")
             .then(res => res.json())
             .then((data) => {
                 const items = data as ProductModel[];
@@ -83,9 +84,7 @@ const ProductTable = () => {
 
     const deleteItem = (id: number) => {
 
-        fetch(productsApi + id, {
-            method: "DELETE"
-        }).then(res => {
+        api.delete("products/" + id).then(res => {
             if (res.status === 200) {
                 setProducts(products.filter(x => x.id !== id));
                 message.success('Product deleted successfuly!');
@@ -93,7 +92,6 @@ const ProductTable = () => {
             else
                 message.error("Something went wrong!");
         });
-
     }
 
     return (

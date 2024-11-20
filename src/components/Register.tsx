@@ -1,13 +1,13 @@
 import React from 'react';
 import type { FormProps } from 'antd';
 import { Button, DatePicker, Form, Input, message } from 'antd';
-import API from '../services/accounts.service';
 import { RegisterField } from '../models/accounts';
+import api from '../services/api';
 
 const onFinish: FormProps<RegisterField>['onFinish'] = (values) => {
     console.log('Success:', values);
 
-    API.post("register", values).then(res => {
+    api.post("accounts/register", values).then(res => {
         console.log(res);
         if (res.status === 200) {
             message.success("User registered successfully!")

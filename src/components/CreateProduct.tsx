@@ -14,7 +14,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { CategoryModel, CategoryOption } from '../models/categories';
 import { ProductFormFields } from '../models/products';
-import axios from 'axios';
+import api from '../services/api';
 
 const { TextArea } = Input;
 
@@ -22,7 +22,7 @@ const normFile = (e: any) => {
     return e?.file.originFileObj;
 };
 
-const productsApi = import.meta.env.VITE_PRODUCTS_API;
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const CreateProduct = () => {
 
@@ -30,7 +30,7 @@ const CreateProduct = () => {
     const [categories, setCategories] = useState<CategoryOption[]>([]);
 
     useEffect(() => {
-        fetch(productsApi + 'categories').then(res => res.json()).then(data => {
+        fetch(apiUrl + 'products/categories').then(res => res.json()).then(data => {
             const items = data as CategoryModel[];
             setCategories(items.map(x => { return { label: x.name, value: x.id } }));
         });
@@ -45,7 +45,7 @@ const CreateProduct = () => {
             form.append(key, (item as any)[key]);
         }
 
-        axios.post(productsApi, form).then(res => {
+        api.post("products", form).then(res => {
             if (res.status === 200) {
                 message.success("Product created successfuly!");
                 navigate(-1);

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { ProductModel } from '../models/products';
 
-const productsApi = import.meta.env.VITE_PRODUCTS_API;
+const apiUrl = import.meta.env.VITE_API_URL;
 
 type Params = {
     id: string;
@@ -16,7 +16,7 @@ export default function ProductInfo() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(productsApi + id)
+        fetch(apiUrl + "products/" + id)
             .then(res => res.json())
             .then(data => setItem(data));
     }, []);

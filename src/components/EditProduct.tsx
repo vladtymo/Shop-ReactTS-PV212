@@ -19,7 +19,7 @@ type QueryParams = {
 }
 const { TextArea } = Input;
 
-const productsApi = import.meta.env.VITE_PRODUCTS_API;
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const EditProduct = () => {
 
@@ -30,12 +30,12 @@ const EditProduct = () => {
     const { id } = useParams<QueryParams>();
 
     useEffect(() => {
-        fetch(productsApi + 'categories').then(res => res.json()).then(data => {
+        fetch(apiUrl + 'products/categories').then(res => res.json()).then(data => {
             const items = data as CategoryModel[];
             setCategories(items.map(x => { return { label: x.name, value: x.id } }));
         });
 
-        fetch(productsApi + id).then(res => res.json()).then(data => {
+        fetch(apiUrl + "products/" + id).then(res => res.json()).then(data => {
             // setProduct(data);
             form.setFieldsValue(data);
             console.log(data);
@@ -46,7 +46,7 @@ const EditProduct = () => {
         console.log(item);
 
         // upload to server
-        fetch(productsApi, {
+        fetch(apiUrl + "products", {
             method: "PUT",
             body: JSON.stringify(item),
             headers: {

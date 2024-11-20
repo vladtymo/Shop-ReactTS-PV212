@@ -1,10 +1,11 @@
 import React from 'react';
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input, message } from 'antd';
-import API, { accountService } from '../services/accounts.service';
+import { accountService } from '../services/accounts.service';
 import { tokenService } from '../services/token.service';
 import { LoginField } from '../models/accounts';
 import { useAccountContext } from '../contexts/accounts.context';
+import api from '../services/api';
 
 const Login: React.FC = () => {
 
@@ -14,7 +15,7 @@ const Login: React.FC = () => {
         console.log('Success:', values);
 
         // using [axios] instead of [fetch]
-        API.post("login", values).then(res => {
+        api.post("accounts/login", values).then(res => {
             console.log(res);
             if (res.status === 200) {
                 accountService.login(res.data.accessToken);
