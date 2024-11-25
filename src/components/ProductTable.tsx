@@ -4,12 +4,29 @@ import { AppstoreAddOutlined, DeleteFilled, EditFilled, InfoCircleFilled, LikeFi
 import { Link } from 'react-router-dom';
 import { ProductModel } from '../models/products';
 import api from '../services/api';
+import { likesService } from '../services/likes.service';
 
 const apiPath = import.meta.env.VITE_API_URL;
 
 const ProductTable = () => {
 
     const [products, setProducts] = useState<ProductModel[]>([]);
+    //const [likedIds, setLikedIds] = useState<number[]>(likesService.get());
+
+    const onLikeToggle = (id: number) => {
+        likesService.toggle(id);
+
+        setProducts((prev) =>
+            prev.map(x =>
+                x.id === id
+                    ? { ...x, liked: likesService.isLiked(id) }
+                    : x
+            ));
+        // if (likedIds.includes(id))
+        //     setLikedIds([...likedIds.filter(x => x !== id)]);
+        // else
+        //     setLikedIds([...likedIds, id]);
+    }
 
     const columns: TableProps<ProductModel>['columns'] = [
         {
@@ -54,7 +71,9 @@ const ProductTable = () => {
                     <Link to={`/products/${record.id}`}>
                         <Button color="default" variant="outlined" icon={<InfoCircleFilled />} />
                     </Link>
-                    <Button style={{ color: '#61916e' }} variant="outlined" icon={<LikeOutlined />} />
+                    <Button onClick={() => onLikeToggle(record.id)} style={{ color: '#61916e' }} variant="outlined"
+                        icon={record.liked ? <LikeFilled /> : <LikeOutlined />}
+                    />
                     <Link to={`/edit/${record.id}`}>
                         <Button style={{ color: '#faad14' }} variant="outlined" icon={<EditFilled />} />
                     </Link>
@@ -78,6 +97,11 @@ const ProductTable = () => {
             .then(res => res.json())
             .then((data) => {
                 const items = data as ProductModel[];
+
+                for (const i of items) {
+                    i.liked = likesService.isLiked(i.id);
+                }
+
                 setProducts(items.sort((x, y) => y.id - x.id));
             });
     }, []);

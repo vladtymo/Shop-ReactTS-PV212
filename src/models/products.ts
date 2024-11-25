@@ -7,6 +7,7 @@ export interface ProductModel {
     imageUrl: string;
     categoryName?: string;
     description?: string;
+    liked: boolean;
 }
 
 export type ProductFormFields = {
